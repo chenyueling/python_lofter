@@ -8,7 +8,8 @@ import cookielib
 import string  
 import re
 import logging
-import traceback  
+import traceback
+import re
   
 #登录的主页面  
 hosturl = 'http://www.lofter.com' #//自己填写  
@@ -46,8 +47,9 @@ postData = {
     'url':'http://www.lofter.com/logingate.do',
     'product':'lofter',
     'savelogin':'1',
-    'username':'chenyueling163@gmail.com',
-    'domains':'www.lofter.com' 
+    #'username':'chenyueling163@gmail.com',
+    'username':'chen_yueling@163.com',
+    'domains':'www.lofter.com'
 }  
   
 #需要给Post数据编码  
@@ -67,7 +69,20 @@ try:
     #f = file('test.html', 'w')
     #f.write(text)
     soup = BeautifulSoup(text)
-    print soup.find_all("script",attrs={"language": "JavaScript"})
+
+    script = soup.find("a")
+
+    print script['href']
+
+    response = urllib2.urlopen(script['href'])
+
+    html = response.read()
+
+    print(html)
+    f = file('html.html', 'w')
+    f.write(html)
+    f.close()
+
     #print text
 except Exception,e:
     print traceback.format_exc()
