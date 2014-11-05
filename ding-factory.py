@@ -1,7 +1,11 @@
-from flask import Flask
+from flask import Flask, Response
 from flask import request
 import json
 import logging
+import service.serverService
+import traceback
+import utils.config
+
 
 app = Flask(__name__)
 
@@ -11,13 +15,49 @@ def hello_world():
     return 'ding-factory'
 
 
-@app.route('/factory/py/lofter',methods=['POST'])
-def process():
+@app.route('/factory/py/<service_name>', methods=['POST'])
+def process(service_name):
     try:
-        data = json.loads(request.data)['c_data'][1]['data']
-        print json.loads(data)['location']
-    except Exception,e:
+        print service_name
+
+        jsonData = json.loads(request.data)
+
+        action = jsonData["action"]
+        isAllow = False
+        for item in utils.config.ALLOW_SERVICE.split(','):
+            if service_name == item :
+                isAllow = True
+        if service_name is None or service_name == '' or not isAllow:
+            return 'No such Service'
+
+        result = ''
+
+        if action == 'ACTION_SERVICE_CREATE':
+            result = service.serverService.action_service_create(service_name,jsonData)
+        elif action == 'ACTION_SERVICE_UPDATE':
+            result = service.serverService.action_service_update(service_name,jsonData)
+        elif action == 'ACTION_CLIENT_SERVICE_CREATE':
+            result = service.serverService.action_client_create(service_name,jsonData)
+        elif action == 'ACTION_SERVICE_FOLLOWED_CHANGE':
+            result = service.serverService.action_service_followed_change(service_name,jsonData)
+        elif action == 'ACTION_SERVICE_DING':
+            result = service.serverService.action_service_ding(action,jsonData)
+
+
+    except Exception, e:
         logging.error(e)
-    return '1'
+        print traceback.format_exc()
+        result.code = "1001"
+        result.message = "unknow Exception"
+        resp = Response(result.get_json())
+        return resp
+
+    resp = Response()
+    resp.data = result.get_json()
+    resp.mimetype = "application/json"
+
+    return resp
+
+
 if __name__ == '__main__':
     app.run()
