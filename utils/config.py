@@ -2,3 +2,10 @@
 # split by ','
 
 ALLOW_SERVICE = 'lofter,'
+
+
+##lofter account
+
+USERNAME = 'chen_yueling@163.com'
+PASSWORD = 'xxxxxxxx'
+

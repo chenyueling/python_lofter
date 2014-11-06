@@ -9,7 +9,7 @@ import utils.redisFactory
 
 
 # {
-#  "s_data": "{\"date\":\"1\",\"status\":\"下雨\"}",
+# "s_data": "{\"date\":\"1\",\"status\":\"下雨\"}",
 #  "action": "ACTION_SERVICE_CREATE",
 #  "title": "明天下雨提醒",
 #  "api_secret": "09ltfmd29f0our68q5bjij2x",
@@ -28,7 +28,6 @@ import utils.redisFactory
 #
 #Service创建事件
 def action_service_create(service_name, jsonObj):
-
     r = utils.redisFactory.getRedis()
 
     title = jsonObj['title']
@@ -37,23 +36,33 @@ def action_service_create(service_name, jsonObj):
 
     sid = jsonObj['sid']
 
-    r.set('title' + ':' + sid , title)
+    r.set('title' + ':' + sid, title)
 
-    r.set('api_secret' + ':' + sid,api_secret)
+    r.set('api_secret' + ':' + sid, api_secret)
+
+    #
+    s_dict = {}
+
+    if jsonObj.has_key('s_data'):
+        s_dataStr = jsonObj['s_data']
+        s_data_dict = json.loads(s_data)
+        s_dict.update(s_data_dict)
+        s_store_dict = r.hgetall('s_data' + ':' + sid)
+        #合并出最新
+        service_dict.update(s_store_dict)
+        #只要是服务端传来的s_data不为空都要存储,如果服务
+        if s_data_dict.__len__() != 0:
+            r.hmset('s_data' + ':' + sid,s_dict)
 
     if jsonObj.has_key('c_data'):
         c_data_list_dict = jsonObj['c_data']
         #c_data_list_dict = json.loads(c_data)
-
-    for item in c_data_list_dict:
-        print json.dumps(item)
-        if jsonObj.has_key('s_data'):
+        for item in c_data_list_dict:
             s_data = jsonObj['s_data']
-            s_data_dict = json.loads(s_data)
-            item.update(s_data_dict)
-            r.hmset(service_name + ':' + item['cid'],item)
+            item.update(s_dict)
+            r.hmset(service_name + ':' + item['cid'], item)
 
-    result = Result('Success','3000');
+    result = Result('Success', '3000');
 
     return result
 
@@ -82,9 +91,8 @@ def action_service_update(service_name, jsonObj):
     return service_name
 
 
-
 class Result(object):
-    def __init__(self,message,code):
+    def __init__(self, message, code):
         self.message = message
         self.code = code
 
