@@ -45,11 +45,12 @@ def action_service_create(service_name, jsonObj):
 
     if jsonObj.has_key('s_data'):
         s_dataStr = jsonObj['s_data']
-        s_data_dict = json.loads(s_data)
+        s_data_dict = json.loads(s_dataStr)
+        s_data_dict.update({'sid':sid})
         s_dict.update(s_data_dict)
         s_store_dict = r.hgetall('s_data' + ':' + sid)
         #合并出最新
-        service_dict.update(s_store_dict)
+        s_dict.update(s_store_dict)
         #只要是服务端传来的s_data不为空都要存储,如果服务
         if s_data_dict.__len__() != 0:
             r.hmset('s_data' + ':' + sid,s_dict)

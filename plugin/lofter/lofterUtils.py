@@ -14,6 +14,9 @@ import traceback
 import re
 import redis
 
+TITLE = 'title'
+LINK = 'link'
+
 
 hosturl = 'http://www.lofter.com'  # //自己填写
 # post数据接收和处理的页面（我们要向这个页面发送我们构造的Post数据）
@@ -104,7 +107,7 @@ def login():
 
 def get_article_byTag(tag):
     #login()
-
+    tag = urllib.urlencode({'': tag}).replace('=', '')
     h = {
         'Accept': '* / *',
         'Accept - Encoding': 'gzip, deflate',
@@ -162,13 +165,20 @@ def get_article_byTag(tag):
     print list
 
     i = 0
-    for item in list:
-        print item.replace('"', '')
+    article_list = []
 
+    for item in list:
+        article = {}
+        print item.replace('"', '')
+        article = {LINK:item.replace('"', '')}
         if (i < list_title.__len__()):
             print list_title[i].replace('noticeLinkTitle="', '').replace('"', '').decode('unicode_escape')
+            article.update({TITLE:list_title[i].replace('noticeLinkTitle="', '').replace('"', '').decode('unicode_escape')})
+            print article
+            article_list.append(article)
+            print
             i = i + 1
-
+    return article_list
 #test
 print urllib.urlencode({'': '原画'}).replace('=', '')
 get_article_byTag(urllib.urlencode({'': '原画'}).replace('=', ''))

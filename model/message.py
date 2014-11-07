@@ -3,6 +3,7 @@ __author__ = 'chenyueling'
 import json
 
 
+
 class ArticleMessage(object):
     def __init__(self, link, title, audience='all'):
         self.article = {
