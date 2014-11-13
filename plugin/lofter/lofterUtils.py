@@ -131,12 +131,12 @@ def get_article_byTag(tag):
         'c0-param0': 'string:%s' % (tag),
         'c0-param1': 'number:0',
         'c0-param2': 'string:',
-        'c0-param3': 'string:excellent',
+        'c0-param3': 'string:new',
         'c0-param4': 'boolean:false',
         'c0-param5': 'number:0',
         'c0-param6': 'number:20',
         'c0-param7': 'number:0',
-        'c0-param8': 'number:1414935540006',
+        'c0-param8': 'number:0',
         'batchId': '370619',
     }
     postDataDwr = urllib.urlencode(postDataDwr)
@@ -151,32 +151,32 @@ def get_article_byTag(tag):
 
     dwr = response.read()
     #dwr data
-    #print dwr
-    print type(dwr)
+    print dwr
+    #print type(dwr)
     #reg match
     prog = re.compile(r'http://.*?.lofter.com/post/.*?_.*?"')  #"http://yuchunxie.lofter.com/post/c881f_2da737d"
     list = prog.findall(dwr)
-    print list
+    #print list
 
     title_re = re.compile(r'noticeLinkTitle=.*?;')
 
     list_title = title_re.findall(dwr)
 
-    print list
+    #print list
 
     i = 0
     article_list = []
 
     for item in list:
         article = {}
-        print item.replace('"', '')
+        #print item.replace('"', '')
         article = {LINK:item.replace('"', '')}
         if (i < list_title.__len__()):
-            print list_title[i].replace('noticeLinkTitle="', '').replace('"', '').decode('unicode_escape')
+            #print list_title[i].replace('noticeLinkTitle="', '').replace('"', '').decode('unicode_escape')
             article.update({TITLE:list_title[i].replace('noticeLinkTitle="', '').replace('"', '').decode('unicode_escape')})
             print article
             article_list.append(article)
-            print
+            #print
             i = i + 1
     return article_list
 #test

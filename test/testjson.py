@@ -15,7 +15,7 @@ class Person(object):
     def __repr__(self):
         return 'Person Object name : %s , age : %d' % (self.name,self.age)
 
-fuck = {'hongxiyu':'1','chenyueling':'2'}
+fuck = {'xxxxx':'1','xxxxxx':'2'}
 p = Person('Peter',22,fuck)
 
 

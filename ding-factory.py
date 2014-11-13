@@ -1,18 +1,17 @@
 #!/usr/bin/python
 # coding=utf-8
-from flask import Flask, Response
-from flask import request
 import json
 import logging
-import service.serverService
 import traceback
-import utils.config
-import time
-import plugin.lofter.lofterUtils
 
-import plugin.lofter.lofterTask
-
+from flask import Flask, Response
+from flask import request
 from apscheduler.scheduler import Scheduler
+
+import service.serverService
+import utils.config
+import plugin.lofter.lofterUtils
+import plugin.lofter.lofterTask
 
 
 app = Flask(__name__)
@@ -27,9 +26,8 @@ def hello_world():
 def process(service_name):
     try:
         print service_name
-
         jsonData = json.loads(request.data)
-
+        print request.data
         action = jsonData["action"]
         isAllow = False
         for item in utils.config.ALLOW_SERVICE.split(','):
@@ -45,7 +43,7 @@ def process(service_name):
         elif action == 'ACTION_SERVICE_UPDATE':
             result = service.serverService.action_service_update(service_name, jsonData)
         elif action == 'ACTION_CLIENT_SERVICE_CREATE':
-            result = service.serverService.action_client_create(service_name, jsonData)
+            result = service.serverService.action_client_service_create(service_name, jsonData)
         elif action == 'ACTION_SERVICE_FOLLOWED_CHANGE':
             result = service.serverService.action_service_followed_change(service_name, jsonData)
         elif action == 'ACTION_SERVICE_DING':
@@ -72,18 +70,19 @@ def fuck():
     return ''
 
 
-
 xxx = ''
 
 schedudler = Scheduler(daemonic=False)
 
-schedudler.add_interval_job(func=plugin.lofter.lofterTask.task,seconds=5)
+schedudler.add_interval_job(func=plugin.lofter.lofterTask.task, seconds=5)
 
 
-#schedudler.add_interval_job(func=plugin.lofter.lofterTask.task(''),seconds=20)
+# schedudler.add_interval_job(func=plugin.lofter.lofterTask.task(''),seconds=20)
+
 
 
 if __name__ == '__main__':
     schedudler.start()
-    app.run()
+    app.run(port=8888)
+
 

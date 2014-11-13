@@ -6,7 +6,7 @@ from rq import Queue
 from redisFactory import getRedis
 
 r = getRedis()
-Q = Queue('xxxx',connection=r)
+Q = Queue(connection=r)
 
 
 

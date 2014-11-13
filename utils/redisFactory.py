@@ -1,11 +1,13 @@
+#!/usr/bin/python
+# coding=utf-8
 __author__ = 'chenyueling'
 
 import redis
 
 
+import utils.config
 
-
-pool = redis.ConnectionPool(host='127.0.0.1', port=6379 , db=0)
+pool = redis.ConnectionPool(host=utils.config.REDIS_HOST, port=utils.config.REDIS_PORT , db=0)
 
 
 
