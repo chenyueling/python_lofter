@@ -12,7 +12,9 @@ ALLOW_SERVICE = 'lofter,'
 USERNAME = 'chen_yueling@163.com'
 PASSWORD = 'xxxxxxxx'
 
-DING_SERVER_HOST = 'http://127.0.0.1:10015'
+#DING_SERVER_HOST = 'http://127.0.0.1:10015'
+
+DING_SERVER_HOST = 'http://demo.91dd.cc:10015'
 
 NOTFY_URL = DING_SERVER_HOST + '/v1/service/{service_id}/{c_id}/push'
 

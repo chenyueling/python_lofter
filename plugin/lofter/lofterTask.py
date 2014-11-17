@@ -27,7 +27,7 @@ def task():
         tag = redis.hmget(cid, 'tag')[0]
 
         print sid
-        #tag = '原画'
+        # tag = '原画'
         print tag
         article = lofterUtils.get_article_byTag(tag)
         api_secret = redis.get('api_secret' + ':' + sid)
@@ -35,7 +35,7 @@ def task():
         title = article[0]['title']
         pushData = model.message.ArticleMessage(link, title)
 
-        cache_link = redis.get('cache_link'+ ':' + c_id_real)
+        cache_link = redis.get('cache_link' + ':' + c_id_real)
 
         if (cache_link == link):
             continue

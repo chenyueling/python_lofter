@@ -11,7 +11,7 @@ class ArticleMessage(object):
             'link': link
         }
         self.audience = audience
-        self.type = 'IMAGE'
+        self.type = 'ARTICLE'
 
     def get_json(self):
         return json.dumps(self.__dict__)
