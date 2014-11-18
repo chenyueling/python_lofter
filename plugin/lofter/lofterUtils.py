@@ -30,7 +30,7 @@ urllib2.install_opener(opener)
 # 打开登录主页面（他的目的是从页面下载cookie，这样我们在再送post数据时就有cookie了，否则发送不成功）
 h = urllib2.urlopen(hosturl)
 
-#构造header，一般header至少要包含一下两项。这两项是从抓到的包里分析得出的。
+# 构造header，一般header至少要包含一下两项。这两项是从抓到的包里分析得出的。
 headers = {
     #'Accept':'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
     #'Accept-Encoding':'gzip,deflate',
@@ -173,8 +173,8 @@ def get_article_byTag(tag):
         if (i < list_title.__len__()):
             #print list_title[i].replace('noticeLinkTitle="', '').replace('"', '').decode('unicode_escape')
             article.update({
-            TITLE: list_title[i].replace('noticeLinkTitle="', '').replace('"', '').replace(';', '').decode(
-                'unicode_escape')})
+                TITLE: list_title[i].replace('noticeLinkTitle="', '').replace('"', '').replace(';', '').decode(
+                    'unicode_escape')})
             print article
             article_list.append(article)
             #print

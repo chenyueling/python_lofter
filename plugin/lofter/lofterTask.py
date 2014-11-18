@@ -19,9 +19,18 @@ def task():
     redis = utils.redisFactory.getRedis()
     set = redis.keys(mark + '*')
     print set
-    for key in set:
-        print key
-        cid = key
+    for cid in set:
+
+        if not utils.timeHelper.time_area(8, 0, 0, 8, 20, 0) or not utils.timeHelper.time_area(18, 00, 0, 18, 20, 0):
+            redis.hset(cid, 'notify', 'false')
+            return
+        else:
+            status = redis.hmget(cid,'notify')
+            if status != None and status == 'true':
+                return
+            else:
+                redis.hset(cid, 'notify', 'true')
+
         c_id_real = cid.split(':')[1]
         sid = redis.hmget(cid, 'sid')[0]
         tag = redis.hmget(cid, 'tag')[0]

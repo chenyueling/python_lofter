@@ -13,6 +13,9 @@ import utils.config
 import plugin.lofter.lofterUtils
 import plugin.lofter.lofterTask
 
+import plugin.toutiao.toutiaoTask
+import plugin.toutiao.toutiaoUtils
+
 
 app = Flask(__name__)
 
@@ -65,9 +68,7 @@ def process(service_name):
     return resp
 
 
-def fuck():
-    print 'fuck'
-    return ''
+
 
 
 xxx = ''
@@ -75,8 +76,8 @@ xxx = ''
 schedudler = Scheduler(daemonic=False)
 
 schedudler.add_interval_job(func=plugin.lofter.lofterTask.task, seconds=5)
-
-
+schedudler.add_interval_job(func=plugin.toutiao.toutiaoTask.toutiao_gallery_task, seconds=5)
+schedudler.add_interval_job(func=plugin.toutiao.toutiaoTask.toutiao_news_task, seconds=5)
 # schedudler.add_interval_job(func=plugin.lofter.lofterTask.task(''),seconds=20)
 
 
