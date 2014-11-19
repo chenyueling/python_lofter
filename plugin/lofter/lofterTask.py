@@ -10,6 +10,8 @@ import lofterUtils
 import utils.Queue
 import model.message
 
+import utils.timeHelper
+
 import exceptions
 
 mark = 'lofter'
@@ -21,11 +23,11 @@ def task():
     print set
     for cid in set:
 
-        if not utils.timeHelper.time_area(8, 0, 0, 8, 20, 0) or not utils.timeHelper.time_area(18, 00, 0, 18, 20, 0):
+        if not utils.timeHelper.time_area(8, 0, 0, 13, 40, 0) and not utils.timeHelper.time_area(18, 0, 0, 20, 20, 0):
             redis.hset(cid, 'notify', 'false')
             return
         else:
-            status = redis.hmget(cid,'notify')
+            status = redis.hmget(cid, 'notify')[0]
             if status != None and status == 'true':
                 return
             else:
@@ -44,14 +46,24 @@ def task():
         title = article[0]['title']
         pushData = model.message.ArticleMessage(link, title)
 
-        cache_link = redis.get('cache_link' + ':' + c_id_real)
-
-        if (cache_link == link):
+        cache_link = redis.hmget(cid, 'cache_link')
+        print cache_link[0]
+        if (cache_link[0] == link):
             continue
         else:
-            redis.set('cache_link' + ':' + c_id_real, link)
+            redis.hmget(cid, {'cache_link': cache_link})
         try:
             Q = utils.Queue.Q
+            print pushData.get_json()
             Q.enqueue('utils.push_task.push_article', pushData.get_json(), sid, c_id_real, api_secret)
         except Exception, e:
             print e
+
+redis = utils.redisFactory.getRedis()
+cid = "lofter:08f6c8d9-048c-4c16-92e9-6b0c53f09737"
+status = redis.hmget(cid, 'notify')[0]
+print status
+if status != None and status == 'true':
+    print 'xxx'
+else:
+    print status

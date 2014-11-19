@@ -94,6 +94,7 @@ def action_service_followed_change(service_name, jsonObj):
 # }
 #ClientService创建事件
 def action_client_service_create(service_name, jsonObj):
+    print jsonObj
     print service_name
     r = utils.redisFactory.getRedis()
     sid = jsonObj['sid']
@@ -101,8 +102,13 @@ def action_client_service_create(service_name, jsonObj):
     s_data_dict = r.hgetall('s_data' + ':' + sid)
     data = jsonObj['data']
     data_dict = json.loads(data)
+    data_dict.update({'cid':c_id_real})
+    data_dict.update({'sid':sid})
     s_data_dict.update(data_dict)
-    r.hmset(service_name + ':' + c_id_real, s_data_dict)
+    if s_data_dict.__len__() == 0:
+        pass
+    else:
+        r.hmset(service_name + ':' + c_id_real, s_data_dict)
 
     result = Result('Success', '3000');
     return result

@@ -4,7 +4,7 @@
 # when we create new service should add service name to ALLOW_SERVICE
 # split by ','
 
-ALLOW_SERVICE = 'lofter,'
+ALLOW_SERVICE = 'lofter,toutiao_news,toutiao_gallery'
 
 
 ##lofter account
@@ -22,6 +22,6 @@ NOTFY_URL = DING_SERVER_HOST + '/v1/service/{service_id}/{c_id}/push'
 
 ## redis
 
-REDIS_HOST = '127.0.0.1'
-
-REDIS_PORT = '6379'
+#REDIS_HOST = '127.0.0.1'
+REDIS_HOST = 'demo.91dd.cc'
+REDIS_PORT = '20016'
