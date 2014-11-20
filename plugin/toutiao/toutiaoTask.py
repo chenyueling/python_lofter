@@ -21,21 +21,18 @@ def toutiao_news_task():
     try:
         for cid in set:
 
-            print '1'
             if not utils.timeHelper.time_area(8, 20, 0, 8, 50, 0) and not utils.timeHelper.time_area(18, 20, 0, 18,
                                                                                                      50, 0):
                 redis.hset(cid, 'notify', 'false')
-                print 'x'
-                return
+                continue
             else:
                 status = redis.hmget(cid, 'notify')[0]
                 if status != None and status == 'true':
-                    print 'x1'
-                    return
+                    print status
+                    continue
                 else:
                     redis.hset(cid, 'notify', 'true')
 
-            print '2'
             c_id_real = cid.split(':')[1]
             sid = redis.hmget(cid, 'sid')[0]
 
@@ -70,13 +67,13 @@ def toutiao_gallery_task():
     print set
     for cid in set:
 
-        if not utils.timeHelper.time_area(8, 30, 0, 8, 50, 0) and not utils.timeHelper.time_area(18, 30, 0, 18, 50, 0):
+        if not utils.timeHelper.time_area(8, 30, 0, 10, 50, 0) and not utils.timeHelper.time_area(18, 30, 0, 18, 50, 0):
             redis.hset(cid, 'notify', 'false')
-            return
+            continue
         else:
             status = redis.hmget(cid, 'notify')[0]
             if status != None and status == 'true':
-                return
+                continue
             else:
                 redis.hset(cid, 'notify', 'true')
 
@@ -103,4 +100,3 @@ def toutiao_gallery_task():
             print e
 
 
-toutiao_gallery_task()

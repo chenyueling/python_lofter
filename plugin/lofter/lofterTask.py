@@ -22,16 +22,20 @@ def task():
     set = redis.keys(mark + '*')
     print set
     for cid in set:
-
+        print cid
+        print 'lofter in'
         if not utils.timeHelper.time_area(8, 0, 0, 13, 40, 0) and not utils.timeHelper.time_area(18, 0, 0, 20, 20, 0):
             redis.hset(cid, 'notify', 'false')
-            return
+            print 'not satisfy'
+            continue
         else:
             status = redis.hmget(cid, 'notify')[0]
             if status != None and status == 'true':
-                return
+                print 'pushed'
+                continue
             else:
                 redis.hset(cid, 'notify', 'true')
+                print 'push now'
 
         c_id_real = cid.split(':')[1]
         sid = redis.hmget(cid, 'sid')[0]

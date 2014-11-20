@@ -38,6 +38,7 @@ def get_toutiao_news():
                 # article['favorite_count'] = item['favorite_count']
                 article[LINK] = item['display_url']
                 article[SUMMARY] = item['abstract']
+    print article
     return article
 
 
