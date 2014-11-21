@@ -24,7 +24,7 @@ def task():
     for cid in set:
         print cid
         print 'lofter in'
-        if not utils.timeHelper.time_area(8, 0, 0, 13, 40, 0) and not utils.timeHelper.time_area(18, 0, 0, 20, 20, 0):
+        if not utils.timeHelper.time_area(8, 0, 0, 8, 40, 0) and not utils.timeHelper.time_area(18, 0, 0, 20, 20, 0):
             redis.hset(cid, 'notify', 'false')
             print 'not satisfy'
             continue
