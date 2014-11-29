@@ -21,7 +21,7 @@ def toutiao_news_task():
     try:
         for cid in set:
 
-            if not utils.timeHelper.time_area(8, 20, 0, 8, 50, 0) and not utils.timeHelper.time_area(18, 20, 0, 18,
+            if not utils.timeHelper.time_area(8, 20, 0, 10, 50, 0) and not utils.timeHelper.time_area(18, 20, 0, 18,
                                                                                                      50, 0):
                 redis.hset(cid, 'notify', 'false')
                 continue
@@ -67,7 +67,7 @@ def toutiao_gallery_task():
     print set
     for cid in set:
 
-        if not utils.timeHelper.time_area(8, 30, 0, 8, 50, 0) and not utils.timeHelper.time_area(18, 30, 0, 18, 50, 0):
+        if not utils.timeHelper.time_area(8, 30, 0, 10, 50, 0) and not utils.timeHelper.time_area(18, 30, 0, 18, 50, 0):
             redis.hset(cid, 'notify', 'false')
             continue
         else:

@@ -75,9 +75,9 @@ xxx = ''
 
 schedudler = Scheduler(daemonic=False)
 
-schedudler.add_interval_job(func=plugin.lofter.lofterTask.task, seconds=10)
-schedudler.add_interval_job(func=plugin.toutiao.toutiaoTask.toutiao_gallery_task, seconds=10)
-schedudler.add_interval_job(func=plugin.toutiao.toutiaoTask.toutiao_news_task, seconds=10)
+schedudler.add_interval_job(func=plugin.lofter.lofterTask.task, seconds=60)
+schedudler.add_interval_job(func=plugin.toutiao.toutiaoTask.toutiao_gallery_task, seconds=60)
+schedudler.add_interval_job(func=plugin.toutiao.toutiaoTask.toutiao_news_task, seconds=60)
 # schedudler.add_interval_job(func=plugin.lofter.lofterTask.task(''),seconds=20)
 
 
