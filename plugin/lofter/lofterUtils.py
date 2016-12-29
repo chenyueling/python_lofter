@@ -47,7 +47,7 @@ headers = {
 }
 #构造Post数据，他也是从抓大的包里分析得出的。
 postData = {
-    'password': 'rio332137628',
+    'password': '***********',
     'type': '1',
     'url': 'http://www.lofter.com/logingate.do',
     'product': 'lofter',
